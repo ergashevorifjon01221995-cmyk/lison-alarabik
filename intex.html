@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="uz" dir="ltr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al-Lisan | Arab Tili Ta'lim Platformasi</title>
+  
+  <!-- Shriftlar: Amiri & Scheherazade New (Arab xattotligi) va Plus Jakarta Sans (Lotin matnlari) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Scheherazade+New:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            arabic: ['"Amiri"', '"Scheherazade New"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            'ar-cyan': '#0891b2',       /* Turkuaz / Feruza */
+            'ar-cyan-light': '#06b6d4',
+            'ar-gold': '#d97706',       /* Za'faron / Oltin */
+            'ar-gold-light': '#f59e0b',
+            'ar-emerald': '#047857',    /* Zumrad yashil */
+            'ar-emerald-dark': '#064e3b',
+            'ar-cream': '#fffbeb',      /* Issiq kremsimon fon */
+            'ar-card': '#ffffff',
+          },
+          boxShadow: {
+            'oriental': '0 10px 25px -3px rgba(8, 145, 178, 0.12), 0 4px 6px -2px rgba(217, 119, 6, 0.08)',
+            'gold-glow': '0 0 20px -2px rgba(245, 158, 11, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Sharqona Islimiy / Arabesk naqsh foni */
+    .arabesque-pattern {
+      background-color: #fcfdfa;
+      background-image: radial-gradient(#0891b2 0.75px, transparent 0.75px), radial-gradient(#d97706 0.75px, #fcfdfa 0.75px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
+
+    .arabic-text {
+      direction: rtl;
+      font-family: 'Amiri', 'Scheherazade New', serif;
+    }
+
+    /* Interaktiv so'z chiziq effekti */
+    .word-interactive {
+      cursor: pointer;
+      position: relative;
+      display: inline-block;
+      padding: 0 4px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+    .word-interactive:hover {
+      background-color: #fef3c7;
+      color: #b45309;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class="font-sans text-slate-800 arabesque-pattern min-h-screen selection:bg-ar-gold selection:text-white">
+
+  <!-- Yuqori Navigatsiya -->
+  <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-amber-200/80 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        
+        <!-- Logo -->
+        <a href="#dashboard" class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-ar-cyan via-emerald-600 to-ar-gold-light flex items-center justify-center text-white shadow-md relative overflow-hidden">
+            <span class="font-arabic text-2xl font-bold">ض</span>
+            <span class="absolute text-[8px] bottom-1 text-amber-200 tracking-tighter">AL-LISAN</span>
+          </div>
+          <div>
+            <h1 class="font-bold text-xl text-slate-900 flex items-center gap-1.5 font-sans">
+              Al-Lisān <span class="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-arabic font-semibold">العَرَبِيَّة</span>
+            </h1>
+            <p class="text-[11px] text-slate-500 font-medium">Interaktiv Arab Tili Akademiyasi</p>
+          </div>
+        </a>
+
+        <!-- Bo'lim Tablari (Desktop) -->
+        <div class="hidden md:flex items-center space-x-1.5 p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200">
+          <button onclick="switchSection('dashboard')" id="nav-dashboard" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white text-ar-cyan shadow-sm">
+            <i class="fa-solid fa-compass mr-1.5"></i> Boshqaruv
+          </button>
+          <button onclick="switchSection('nahv')" id="nav-nahv" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-ar-cyan">
+            <i class="fa-solid fa-diagram-project mr-1.5"></i> Nahv (Grammatika)
+          </button>
+          <button onclick="switchSection('sarf')" id="nav-sarf" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-ar-cyan">
+            <i class="fa-solid fa-cubes-stacked mr-1.5"></i> Sarf (Vaznlar)
+          </button>
+          <button onclick="switchSection('mutolaa')" id="nav-mutolaa" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-ar-cyan">
+            <i class="fa-solid fa-book-open mr-1.5"></i> Mutolaa & Audio
+          </button>
+          <button onclick="switchSection('quiz')" id="nav-quiz" class="nav-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-ar-cyan">
+            <i class="fa-solid fa-brain mr-1.5"></i> Viktorina (Quiz)
+          </button>
+        </div>
+
+        <!-- O'ng tomondagi tezkor vosita (Lug'at qidirish tugmasi) -->
+        <div class="flex items-center gap-2">
+          <button onclick="openFormulaModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-ar-gold to-amber-600 text-white text-xs font-semibold shadow hover:shadow-gold-glow transition flex items-center gap-1.5">
+            <i class="fa-solid fa-scroll"></i>
+            <span class="hidden sm:inline">Qoidalar &</span> Formulalar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobil menyu pastki lentalari -->
+    <div class="flex md:hidden overflow-x-auto px-4 py-2.5 gap-2 border-t border-slate-100 bg-white">
+      <button onclick="switchSection('dashboard')" class="text-xs shrink-0 px-3 py-1.5 rounded-lg bg-amber-50 text-ar-gold font-bold">Boshqaruv</button>
+      <button onclick="switchSection('nahv')" class="text-xs shrink-0 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-bold">Nahv</button>
+      <button onclick="switchSection('sarf')" class="text-xs shrink-0 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-bold">Sarf</button>
+      <button onclick="switchSection('mutolaa')" class="text-xs shrink-0 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-bold">Mutolaa</button>
+      <button onclick="switchSection('quiz')" class="text-xs shrink-0 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-bold">Viktorina</button>
+    </div>
+  </nav>
+
+  <!-- ASOSIY KONTEYNER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- 1. DASHBOARD BO'LIMI -->
+    <section id="section-dashboard" class="space-y-8 animate-fadeIn">
+      
+      <!-- Hikmat Banneri -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-ar-emerald-dark via-emerald-800 to-ar-cyan p-8 text-white shadow-oriental border border-emerald-600/30">
+        <div class="absolute -top-12 -right-12 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          
+          <div class="lg:col-span-8 space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-700/60 text-amber-300 text-xs font-semibold border border-amber-300/30">
+              <span>✦</span> Kunning Arabcha Hikmati <span>✦</span>
+            </div>
+            <div class="arabic-text text-3xl sm:text-4xl text-amber-200 font-bold leading-relaxed pt-2">
+              «اطْلُبُوا العِلْمَ مِنَ المَهْدِ إِلَى اللَّحْدِ»
+            </div>
+            <p class="text-slate-200 text-sm italic font-medium">
+              "Beshikdan to qabrgacha ilm izlang."
+            </p>
+            <p class="text-xs text-emerald-200/90 pt-1">
+              Nahviy tahlil: <span class="bg-emerald-900/60 px-2 py-0.5 rounded text-amber-300">اطْلُبُوا</span> — amr fe'li; <span class="bg-emerald-900/60 px-2 py-0.5 rounded text-cyan-200">العِلْمَ</span> — maf'ul bihi (nasb).
+            </p>
+          </div>
+
+          <div class="lg:col-span-4 bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 text-center">
+            <h3 class="text-xs uppercase tracking-wider text-amber-300 font-bold mb-3">O'rganish Ko'rsatkichi</h3>
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="bg-emerald-950/40 p-2.5 rounded-xl">
+                <span class="block text-2xl font-extrabold text-white">10</span>
+                <span class="text-[10px] text-emerald-200">Sarf Bobi</span>
+              </div>
+              <div class="bg-emerald-950/40 p-2.5 rounded-xl">
+                <span class="block text-2xl font-extrabold text-amber-300">2</span>
+                <span class="text-[10px] text-emerald-200">Jumla turi</span>
+              </div>
+              <div class="bg-emerald-950/40 p-2.5 rounded-xl">
+                <span class="block text-2xl font-extrabold text-cyan-300" id="dashQuizScore">100%</span>
+                <span class="text-[10px] text-emerald-200">Sinov</span>
+              </div>
+            </div>
+            <button onclick="switchSection('quiz')" class="mt-4 w-full py-2 bg-gradient-to-r from-ar-gold to-amber-500 rounded-xl text-xs font-bold text-slate-900 shadow hover:opacity-95 transition">
+              Bugungi Testni Boshlash
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tezkor O'quv Modullari Kartalari -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Nahv Karta -->
+        <div onclick="switchSection('nahv')" class="cursor-pointer group p-6 rounded-3xl bg-white border border-cyan-100 hover:border-ar-cyan transition-all shadow-sm hover:shadow-oriental">
+          <div class="w-14 h-14 rounded-2xl bg-cyan-50 text-ar-cyan flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+            <i class="fa-solid fa-diagram-project"></i>
+          </div>
+          <span class="text-xs font-bold text-ar-cyan uppercase tracking-wider">Grammatika</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-1 flex items-center justify-between">
+            <span>Ilm an-Nahv (النَّحْو)</span>
+            <i class="fa-solid fa-arrow-right text-xs opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-ar-cyan"></i>
+          </h3>
+          <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+            Gap tarkibi, e'rob qoidalari (raf', nasb, jarr, jazm) hamda ismiy va fe'liy jumlalar formulalari.
+          </p>
+          <div class="mt-4 flex gap-2">
+            <span class="px-2 py-0.5 rounded-md bg-cyan-50 text-ar-cyan text-[11px] font-semibold">Ismiy Jumla</span>
+            <span class="px-2 py-0.5 rounded-md bg-cyan-50 text-ar-cyan text-[11px] font-semibold">Fe'liy Jumla</span>
+          </div>
+        </div>
+
+        <!-- Sarf Karta -->
+        <div onclick="switchSection('sarf')" class="cursor-pointer group p-6 rounded-3xl bg-white border border-amber-100 hover:border-ar-gold transition-all shadow-sm hover:shadow-oriental">
+          <div class="w-14 h-14 rounded-2xl bg-amber-50 text-ar-gold flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+            <i class="fa-solid fa-cubes-stacked"></i>
+          </div>
+          <span class="text-xs font-bold text-ar-gold uppercase tracking-wider">Morfologiya</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-1 flex items-center justify-between">
+            <span>Ilm as-Sarf (الصَّرْف)</span>
+            <i class="fa-solid fa-arrow-right text-xs opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-ar-gold"></i>
+          </h3>
+          <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+            So'z yasalishi, 3 harfli o'zakdan (ف-ع-ل) 10 ta fe'l bobi hosil qilish tizimi va vaznlar formulasi.
+          </p>
+          <div class="mt-4 flex gap-2">
+            <span class="px-2 py-0.5 rounded-md bg-amber-50 text-ar-gold text-[11px] font-semibold">10 Bob</span>
+            <span class="px-2 py-0.5 rounded-md bg-amber-50 text-ar-gold text-[11px] font-semibold">Ismi foil / Maf'ul</span>
+          </div>
+        </div>
+
+        <!-- Mutolaa Karta -->
+        <div onclick="switchSection('mutolaa')" class="cursor-pointer group p-6 rounded-3xl bg-white border border-emerald-100 hover:border-ar-emerald transition-all shadow-sm hover:shadow-oriental">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-ar-emerald flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <span class="text-xs font-bold text-ar-emerald uppercase tracking-wider">O'qish & Tahlil</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-1 flex items-center justify-between">
+            <span>Al-Qiroa (القِرَاءَة)</span>
+            <i class="fa-solid fa-arrow-right text-xs opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-ar-emerald"></i>
+          </h3>
+          <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+            Interaktiv qissalar: Har bir so'zni bosing, lug'aviy ma'nosi va grammatik vazifasini jonli tahlil qiling.
+          </p>
+          <div class="mt-4 flex gap-2">
+            <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-ar-emerald text-[11px] font-semibold">Klassik matnlar</span>
+            <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-ar-emerald text-[11px] font-semibold">Audio talaffuz</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Arab Tili So'z Turlari Sxemasi (Kalima taqsimi) -->
+      <div class="p-8 bg-white rounded-3xl border border-slate-200/80 shadow-sm">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+          <div>
+            <h3 class="font-bold text-xl text-slate-900 font-sans">
+              Arab Tilida Kalima (So'z) Bo'linishi
+            </h3>
+            <p class="text-xs text-slate-500">Arab tilidagi har qanday so'z quyidagi 3 toifadan biriga kiradi:</p>
+          </div>
+          <span class="text-xs font-bold px-3 py-1 rounded-full bg-cyan-100 text-ar-cyan">Asosiy Sxema</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+          
+          <!-- Ism -->
+          <div class="p-5 rounded-2xl bg-cyan-50/70 border border-cyan-200 relative overflow-hidden">
+            <div class="absolute top-2 right-2 text-cyan-200 font-arabic text-3xl font-bold">١</div>
+            <div class="font-arabic text-3xl font-bold text-ar-cyan mb-1">الاِسْمُ</div>
+            <h4 class="font-bold text-slate-800 text-sm">Ism (Ot, Sifat, Olmosh)</h4>
+            <p class="text-xs text-slate-600 mt-2">
+              Zamonga bog'liq bo'lmagan mustaqil ma'no bildiruvchi so'z.
+            </p>
+            <div class="mt-3 bg-white py-1.5 px-3 rounded-lg text-xs font-arabic text-ar-cyan font-bold border border-cyan-100">
+              كِتَابٌ ، شَجَرَةٌ ، صَدِيقٌ
+            </div>
+            <p class="text-[10px] text-cyan-800 mt-2 font-medium">Belgilari: Alif-lom (ال), tanvin, jarr harflari.</p>
+          </div>
+
+          <!-- Fe'l -->
+          <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200 relative overflow-hidden">
+            <div class="absolute top-2 right-2 text-amber-200 font-arabic text-3xl font-bold">٢</div>
+            <div class="font-arabic text-3xl font-bold text-ar-gold mb-1">الفِعْلُ</div>
+            <h4 class="font-bold text-slate-800 text-sm">Fe'l (Harakat)</h4>
+            <p class="text-xs text-slate-600 mt-2">
+              O'tmish, hozirgi yoki kelasi zamon bilan bog'liq ish-harakat.
+            </p>
+            <div class="mt-3 bg-white py-1.5 px-3 rounded-lg text-xs font-arabic text-ar-gold font-bold border border-amber-100">
+              كَتَبَ ، يَكْتُبُ ، اُكْتُبْ
+            </div>
+            <p class="text-[10px] text-amber-800 mt-2 font-medium">Turlari: Modiy (o'tgan), Muzore' (hozirgi-kelasi), Amr (buyruq).</p>
+          </div>
+
+          <!-- Harf -->
+          <div class="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200 relative overflow-hidden">
+            <div class="absolute top-2 right-2 text-emerald-200 font-arabic text-3xl font-bold">٣</div>
+            <div class="font-arabic text-3xl font-bold text-ar-emerald mb-1">الحَرْفُ</div>
+            <h4 class="font-bold text-slate-800 text-sm">Harf (Yordamchi so'z)</h4>
+            <p class="text-xs text-slate-600 mt-2">
+              Boshqa so'zga qo'shilmaguncha to'liq mustaqil ma'noga ega bo'lmaydi.
+            </p>
+            <div class="mt-3 bg-white py-1.5 px-3 rounded-lg text-xs font-arabic text-ar-emerald font-bold border border-emerald-100">
+              فِي ، مِنْ ، إِلَى ، عَلَى ، بِـ
+            </div>
+            <p class="text-[10px] text-emerald-800 mt-2 font-medium">Vazifasi: So'zlarni bog'lash, holatni (e'robni) o'zgartirish.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. NAHV (GRAMMATIKA) BO'LIMI -->
+    <section id="section-nahv" class="space-y-8 hidden animate-fadeIn">
+      
+      <!-- Sarlavha -->
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="text-ar-cyan font-bold text-xs uppercase tracking-widest">Sintaksis & Gap Qurilishi</span>
+        <h2 class="font-serif text-3xl font-bold text-slate-900 mt-1">
+          Ilm an-Nahv (قَوَاعِدُ النَّحْوِ)
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mt-2">
+          Arab tilida gaplar asosan ikki katta turga bo'linadi: Ismiy jumla va Fe'liy jumla. Formulalar orqali oson o'rganing.
+        </p>
+      </div>
+
+      <!-- Interaktiv Sintaktik Formulalar Qutisi -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Formula 1: Ismiy Jumla -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-cyan-200 shadow-sm relative overflow-hidden">
+          <div class="flex justify-between items-center mb-4">
+            <span class="px-3 py-1 rounded-full bg-cyan-100 text-ar-cyan text-xs font-bold">Formula 1</span>
+            <span class="font-arabic text-xl font-bold text-ar-cyan">الجُمْلَةُ الاِسْمِيَّةُ</span>
+          </div>
+
+          <h3 class="text-xl font-bold text-slate-900">Ismiy Jumla Formulalari</h3>
+          <p class="text-xs text-slate-500 mt-1">Ism bilan boshlanadigan gap. Asosiy ikki qismdan iborat bo'ladi:</p>
+
+          <!-- Sxema bloki -->
+          <div class="my-6 p-4 rounded-2xl bg-cyan-50/60 border border-cyan-200 flex flex-col sm:flex-row items-center justify-center gap-3 text-center">
+            
+            <div class="bg-white p-3 rounded-xl border border-cyan-300 w-full sm:w-auto shadow-sm">
+              <span class="font-arabic text-2xl font-bold text-ar-cyan block">المُبْتَدَأُ</span>
+              <span class="text-xs font-bold text-slate-700">Mubtada (Ega)</span>
+              <span class="block text-[10px] text-cyan-700">Marfu' (Zammali ُ )</span>
+            </div>
+
+            <span class="text-2xl text-ar-gold font-bold">+</span>
+
+            <div class="bg-white p-3 rounded-xl border border-amber-300 w-full sm:w-auto shadow-sm">
+              <span class="font-arabic text-2xl font-bold text-ar-gold block">الخَبَرُ</span>
+              <span class="text-xs font-bold text-slate-700">Xabar (Kesim)</span>
+              <span class="block text-[10px] text-amber-700">Marfu' (Zammali ُ / ٌ )</span>
+            </div>
+
+          </div>
+
+          <!-- Misol va E'rob tahlili -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-slate-500">Jonli Misol:</span>
+              <div class="arabic-text text-2xl font-bold text-slate-900">
+                <span class="text-ar-cyan">العِلْمُ</span> <span class="text-ar-gold">نُورٌ</span>
+              </div>
+            </div>
+            <div class="text-xs text-slate-600 border-t border-slate-200 pt-2 space-y-1">
+              <p><strong class="text-ar-cyan">العِلْمُ (Al-'ilmu)</strong>: Mubtada, raf' alomati oxiridagi zamma (ُ ). Ma'nosi: "Ilm".</p>
+              <p><strong class="text-ar-gold">نُورٌ (Nūrun)</strong>: Xabar, raf' alomati tanvin zamma (ٌ ). Ma'nosi: "nurdir".</p>
+              <p class="font-semibold text-slate-800 text-[11px] pt-1">Tarjima: "Ilm nurdir."</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formula 2: Fe'liy Jumla -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-200 shadow-sm relative overflow-hidden">
+          <div class="flex justify-between items-center mb-4">
+            <span class="px-3 py-1 rounded-full bg-emerald-100 text-ar-emerald text-xs font-bold">Formula 2</span>
+            <span class="font-arabic text-xl font-bold text-ar-emerald">الجُمْلَةُ الفِعْلِيَّةُ</span>
+          </div>
+
+          <h3 class="text-xl font-bold text-slate-900">Fe'liy Jumla Formulalari</h3>
+          <p class="text-xs text-slate-500 mt-1">Fe'l bilan boshlanadigan gap. Harakat va uning bajaruvchisi bo'ladi:</p>
+
+          <!-- Sxema bloki -->
+          <div class="my-6 p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 flex flex-col sm:flex-row items-center justify-center gap-2 text-center">
+            
+            <div class="bg-white p-2.5 rounded-xl border border-emerald-300 w-full sm:w-auto shadow-sm">
+              <span class="font-arabic text-xl font-bold text-ar-emerald block">الفِعْلُ</span>
+              <span class="text-xs font-bold text-slate-700">Fe'l (Harakat)</span>
+            </div>
+
+            <span class="text-xl text-slate-400 font-bold">+</span>
+
+            <div class="bg-white p-2.5 rounded-xl border border-cyan-300 w-full sm:w-auto shadow-sm">
+              <span class="font-arabic text-xl font-bold text-ar-cyan block">الفَاعِلُ</span>
+              <span class="text-xs font-bold text-slate-700">Foeil (Bajaruvchi)</span>
+              <span class="block text-[9px] text-cyan-700">Marfu' (Zamma ُ )</span>
+            </div>
+
+            <span class="text-xl text-slate-400 font-bold">+</span>
+
+            <div class="bg-white p-2.5 rounded-xl border border-amber-300 w-full sm:w-auto shadow-sm">
+              <span class="font-arabic text-xl font-bold text-ar-gold block">المَفْعُولُ بِهِ</span>
+              <span class="text-xs font-bold text-slate-700">Maf'ul (To'ldiruvchi)</span>
+              <span class="block text-[9px] text-amber-700">Mansub (Fatha َ )</span>
+            </div>
+
+          </div>
+
+          <!-- Misol va E'rob tahlili -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-slate-500">Jonli Misol:</span>
+              <div class="arabic-text text-2xl font-bold text-slate-900">
+                <span class="text-ar-emerald">قَرَأَ</span> <span class="text-ar-cyan">الطَّالِبُ</span> <span class="text-ar-gold">الكِتَابَ</span>
+              </div>
+            </div>
+            <div class="text-xs text-slate-600 border-t border-slate-200 pt-2 space-y-1">
+              <p><strong class="text-ar-emerald">قَرَأَ (Qoro'a)</strong>: Modiy fe'li (O'qidi).</p>
+              <p><strong class="text-ar-cyan">الطَّالِبُ (At-tālibu)</strong>: Foeil (Talaba) — harakati zamma (ُ ).</p>
+              <p><strong class="text-ar-gold">الكِتَابَ (Al-kitāba)</strong>: Maf'ul bihi (Kitobni) — harakati fatha (َ ).</p>
+              <p class="font-semibold text-slate-800 text-[11px] pt-1">Tarjima: "Talaba kitobni o'qidi."</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- E'rob (Kelishik holatlari) Jadvali -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-table-list text-ar-gold"></i>
+          <span>To'rtta Asosiy E'rob Holati (عَلَامَاتُ الإِعْرَابِ)</span>
+        </h3>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-amber-50 text-slate-700 font-bold border-b border-amber-200">
+                <th class="p-3">E'rob Holati</th>
+                <th class="p-3 font-arabic text-base">Arabcha nomi</th>
+                <th class="p-3">Asosiy Harakat</th>
+                <th class="p-3">Qaysi so'zlarda uchraydi?</th>
+                <th class="p-3 font-arabic text-base">Misol</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr class="hover:bg-cyan-50/40 transition">
+                <td class="p-3 font-bold text-ar-cyan">Raf' (Bosh kelishik)</td>
+                <td class="p-3 font-arabic text-lg font-bold">الرَّفْعُ</td>
+                <td class="p-3"><span class="px-2 py-1 rounded bg-cyan-100 text-ar-cyan font-bold">Zamma ( ُ )</span></td>
+                <td class="p-3 text-slate-600">Mubtada, Xabar, Foeil</td>
+                <td class="p-3 font-arabic text-lg font-bold text-slate-800">جَاءَ <u>المُعَلِّمُ</u></td>
+              </tr>
+              <tr class="hover:bg-amber-50/40 transition">
+                <td class="p-3 font-bold text-ar-gold">Nasb (Tushum kelishigi)</td>
+                <td class="p-3 font-arabic text-lg font-bold">النَّصْبُ</td>
+                <td class="p-3"><span class="px-2 py-1 rounded bg-amber-100 text-ar-gold font-bold">Fatha ( َ )</span></td>
+                <td class="p-3 text-slate-600">Maf'ul bihi, "Inna"ning ismi, Hol</td>
+                <td class="p-3 font-arabic text-lg font-bold text-slate-800">رَأَيْتُ <u>المُعَلِّمَ</u></td>
+              </tr>
+              <tr class="hover:bg-emerald-50/40 transition">
+                <td class="p-3 font-bold text-ar-emerald">Jarr (Qaratqich kelishigi)</td>
+                <td class="p-3 font-arabic text-lg font-bold">الجَرُّ</td>
+                <td class="p-3"><span class="px-2 py-1 rounded bg-emerald-100 text-ar-emerald font-bold">Kasra ( ِ )</span></td>
+                <td class="p-3 text-slate-600">Jarr harfidan keyingi so'z, Muzofun ilayh</td>
+                <td class="p-3 font-arabic text-lg font-bold text-slate-800">سَلَّمْتُ عَلَى <u>المُعَلِّمِ</u></td>
+              </tr>
+              <tr class="hover:bg-purple-50/40 transition">
+                <td class="p-3 font-bold text-purple-700">Jazm (Shart/Buyruq)</td>
+                <td class="p-3 font-arabic text-lg font-bold">الجَزْمُ</td>
+                <td class="p-3"><span class="px-2 py-1 rounded bg-purple-100 text-purple-700 font-bold">Sukun ( ْ )</span></td>
+                <td class="p-3 text-slate-600">Faqat muzore' fe'lida (lam, laa bilan)</td>
+                <td class="p-3 font-arabic text-lg font-bold text-slate-800">لَمْ <u>يَذْهَبْ</u></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 3. SARF (MORFOLOGIYA & VAZNLAR) BO'LIMI -->
+    <section id="section-sarf" class="space-y-8 hidden animate-fadeIn">
+      
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="text-ar-gold font-bold text-xs uppercase tracking-widest">So'z Yasalishi & Vaznlar</span>
+        <h2 class="font-serif text-3xl font-bold text-slate-900 mt-1">
+          Ilm as-Sarf (مِيزَانُ الصَّرْفِ)
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mt-2">
+          Arab tilidagi aksariyat so'zlar uch harfli o'zakdan — <strong class="text-ar-gold font-arabic text-lg">ف - ع - ل</strong> (Fe'l) qolipidan o'lchanadi.
+        </p>
+      </div>
+
+      <!-- Interaktiv O'zak Kalkulyatori / Generator -->
+      <div class="bg-gradient-to-r from-amber-500 via-ar-gold to-yellow-500 p-1 rounded-3xl shadow-oriental">
+        <div class="bg-white rounded-[22px] p-6 sm:p-8">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-100">
+            <div>
+              <h3 class="font-bold text-xl text-slate-900">Interaktiv Vazn O'lchagich (Mezon)</h3>
+              <p class="text-xs text-slate-500">Ildiz so'z tanlang va uning turli vaznlarda qanday hosil bo'lishini ko'ring:</p>
+            </div>
+            
+            <!-- Ildiz tanlash selektori -->
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-bold text-slate-600">Ildiz tanlang:</span>
+              <select id="rootSelector" onchange="updateRootDisplay()" class="px-4 py-2 rounded-xl bg-amber-50 border border-amber-300 font-arabic text-lg text-slate-800 font-bold focus:outline-none">
+                <option value="ktb" selected>ك - ت - ب (Yozmoq)</option>
+                <option value="drs">د - ر - س (O'rganmoq)</option>
+                <option value="fth">ف - ت - ح (Ochmoq)</option>
+                <option value="nsr">ن - ص - ر (Yordam bermoq)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Natija Kartalari (Vaznlar bo'yicha) -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 pt-6" id="sarfResultsGrid">
+            <!-- JavaScript dinamik ravishda to'ldiradi -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Fe'l Boblari (Sulasiy Mazid 10 bob jadvali) -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Sulasiy Mazid: Eng ko'p ishlatiladigan fe'l boblari</h3>
+        <p class="text-xs text-slate-500 mb-6">Asosiy 3 harfli fe'lga qo'shimcha harf qo'shilib, yangi ma'no nozikliklari hosil qilinadi:</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          
+          <!-- Bob 2: Taf'iil -->
+          <div class="p-4 rounded-2xl bg-amber-50/60 border border-amber-200">
+            <div class="flex justify-between items-center text-xs font-bold text-ar-gold">
+              <span>II Bob</span>
+              <span class="font-arabic text-sm">تَفْعِيلٌ</span>
+            </div>
+            <div class="font-arabic text-2xl font-bold text-slate-900 my-2">
+              فَعَّلَ - يُفَعِّلُ
+            </div>
+            <p class="text-xs text-slate-600"><strong>Ma'nosi:</strong> Kuchaytirish, o'timli qilish.</p>
+            <div class="mt-2 text-xs font-arabic bg-white p-2 rounded-lg border border-amber-100 text-slate-800">
+              عَلَّمَ (O'rgatdi) ← عَلِمَ (Bildi)
+            </div>
+          </div>
+
+          <!-- Bob 3: Mufaa'ala -->
+          <div class="p-4 rounded-2xl bg-cyan-50/60 border border-cyan-200">
+            <div class="flex justify-between items-center text-xs font-bold text-ar-cyan">
+              <span>III Bob</span>
+              <span class="font-arabic text-sm">مُفَاعَلَةٌ</span>
+            </div>
+            <div class="font-arabic text-2xl font-bold text-slate-900 my-2">
+              فَاعَلَ - يُفَاعِلُ
+            </div>
+            <p class="text-xs text-slate-600"><strong>Ma'nosi:</strong> Sheriklik, birgalikda bajarish.</p>
+            <div class="mt-2 text-xs font-arabic bg-white p-2 rounded-lg border border-cyan-100 text-slate-800">
+              كَاتَبَ (Yozishdi) ← كَتَبَ (Yozdi)
+            </div>
+          </div>
+
+          <!-- Bob 4: If'aal -->
+          <div class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200">
+            <div class="flex justify-between items-center text-xs font-bold text-ar-emerald">
+              <span>IV Bob</span>
+              <span class="font-arabic text-sm">إِفْعَالٌ</span>
+            </div>
+            <div class="font-arabic text-2xl font-bold text-slate-900 my-2">
+              أَفْعَلَ - يُفْعِلُ
+            </div>
+            <p class="text-xs text-slate-600"><strong>Ma'nosi:</strong> Birovni harakatga majburlash/o'tkazish.</p>
+            <div class="mt-2 text-xs font-arabic bg-white p-2 rounded-lg border border-emerald-100 text-slate-800">
+              أَرْسَلَ (Yubordi) / أَخْرَجَ (Chiqardi)
+            </div>
+          </div>
+
+          <!-- Bob 5: Tafa''ul -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center text-xs font-bold text-slate-600">
+              <span>V Bob</span>
+              <span class="font-arabic text-sm">تَفَعُّلٌ</span>
+            </div>
+            <div class="font-arabic text-2xl font-bold text-slate-900 my-2">
+              تَفَعَّلَ - يَتَفَعَّلُ
+            </div>
+            <p class="text-xs text-slate-600"><strong>Ma'nosi:</strong> Mutova'at (ta'sirni o'zida qabul qilish).</p>
+            <div class="mt-2 text-xs font-arabic bg-white p-2 rounded-lg border border-slate-200 text-slate-800">
+              تَعَلَّمَ (O'rgandi) ← عَلَّمَ (O'rgatdi)
+            </div>
+          </div>
+
+          <!-- Bob 8: Ifti'aal -->
+          <div class="p-4 rounded-2xl bg-purple-50/60 border border-purple-200">
+            <div class="flex justify-between items-center text-xs font-bold text-purple-700">
+              <span>VIII Bob</span>
+              <span class="font-arabic text-sm">اِفْتِعَالٌ</span>
+            </div>
+            <div class="font-arabic text-2xl font-bold text-slate-900 my-2">
+              اِفْتَعَلَ - يَفْتَعِلُ
+            </div>
+            <p class="text-xs text-slate-600"><strong>Ma'nosi:</strong> Jonbozlik, urinish yoki o'ziga qilish.</p>
+            <div class="mt-2 text-xs font-arabic bg-white p-2 rounded-lg border border-purple-200 text-slate-800">
+              اِجْتَهَدَ (G'ayrat qildi) ← جَهَدَ
+            </div>
+          </div>
+
+          <!-- Bob 10: Istif'aal -->
+          <div class="p-4 rounded-2xl bg-rose-50/60 border border-rose-200">
+            <div class="flex justify-between items-center text-xs font-bold text-rose-700">
+              <span>X Bob</span>
+              <span class="font-arabic text-sm">اِسْتِفْعَالٌ</span>
+            </div>
+            <div class="font-arabic text-2xl font-bold text-slate-900 my-2">
+              اِسْتَفْعَلَ - يَسْتَفْعِلُ
+            </div>
+            <p class="text-xs text-slate-600"><strong>Ma'nosi:</strong> So'rash, talab qilish.</p>
+            <div class="mt-2 text-xs font-arabic bg-white p-2 rounded-lg border border-rose-200 text-slate-800">
+              اِسْتَغْفَرَ (Mag'firat so'radi) ← غَفَرَ
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 4. MUTOLAA & AUDIO BO'LIMI -->
+    <section id="section-mutolaa" class="space-y-8 hidden animate-fadeIn">
+      
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="text-ar-emerald font-bold text-xs uppercase tracking-widest">Jonli Qiroat & Tahlil</span>
+        <h2 class="font-serif text-3xl font-bold text-slate-900 mt-1">
+          Interaktiv Mutolaa Darsi
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mt-2">
+          Matndagi <strong>har bir so'z ustiga bosing</strong> — uning o'zbekcha tarjimasi, grammatik vazifasi va ildizi chiqadi!
+        </p>
+      </div>
+
+      <!-- O'qish paneli -->
+      <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-oriental">
+        
+        <!-- Matn sarlavhasi va Audio boshqaruvi -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-slate-100">
+          <div>
+            <span class="text-xs font-bold text-ar-emerald bg-emerald-50 px-3 py-1 rounded-full">Klassik Qissa</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-1">Olim va Dengizchi (العَالِمُ وَالمَلَّاحُ)</h3>
+          </div>
+          
+          <!-- Audio Tinglash Tugmasi -->
+          <div class="flex items-center gap-3">
+            <button onclick="playAudioText()" class="px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow flex items-center gap-2 transition active:scale-95">
+              <i class="fa-solid fa-volume-high"></i>
+              <span id="audioStatusText">Matnni O'qib Berish</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Interaktiv Matn Maydoni (Har bir so'z bosiluvchan) -->
+        <div class="arabic-text text-2xl sm:text-3xl lg:text-4xl leading-[2.6] text-slate-800 my-8 p-6 sm:p-8 bg-amber-50/30 rounded-2xl border border-amber-200/60" id="readingContainer">
+          
+          <span class="word-interactive" onclick="analyzeWord('رَكِبَ', 'Fe\'l (O\'tgan zamon)', 'Mindi', 'Modiy fe\'l, fatha ustiga mabniy')">رَكِبَ</span>
+          <span class="word-interactive" onclick="analyzeWord('عَالِمٌ', 'Ism (Mubtada/Foeil)', 'Olim kishi', 'Foeil, raf\' alomati tanvin zamma')">عَالِمٌ</span>
+          <span class="word-interactive" onclick="analyzeWord('سَفِينَةً', 'Ism (Maf\'ul)', 'Kemaga', 'Maf\'ul bihi, nasb alomati tanvin fatha')">سَفِينَةً</span>
+          <span class="word-interactive" onclick="analyzeWord('فِي', 'Harf (Jarr)', 'Ichida / -da', 'Jarr harfi')">فِي</span>
+          <span class="word-interactive" onclick="analyzeWord('البَحْرِ', 'Ism (Majrur)', 'Dengiz', 'Majrur ism, kasra bilan')">البَحْرِ</span>
+          <span>،</span>
+          <span class="word-interactive" onclick="analyzeWord('فَقَالَ', 'Fe\'l + bog\'lovchi', 'So\'ng aytdi', 'Fe\'l modiy va bog\'lovchi fo')">فَقَالَ</span>
+          <span class="word-interactive" onclick="analyzeWord('لِلْمَلَّاحِ', 'Harf + Ism', 'Dengizchiga', 'Li jarr harfi va malloh ismi')">لِلْمَلَّاحِ</span>
+          <span>:</span>
+          <span class="word-interactive" onclick="analyzeWord('هَلْ', 'Harf (Savol)', 'Aytchi / -mi?', 'Istifhom (so\'roq) harfi')">هَلْ</span>
+          <span class="word-interactive" onclick="analyzeWord('تَعْرِفُ', 'Fe\'l (Muzore\')', 'Bilasanmi?', 'Hozirgi zamon fe\'li, marfu\'')">تَعْرِفُ</span>
+          <span class="word-interactive" onclick="analyzeWord('شَيْئًا', 'Ism (Maf\'ul)', 'Biror narsa', 'Maf\'ul bihi, mansub')">شَيْئًا</span>
+          <span class="word-interactive" onclick="analyzeWord('مِنَ', 'Harf (Jarr)', '-dan', 'Jarr harfi')">مِنَ</span>
+          <span class="word-interactive" onclick="analyzeWord('النَّحْوِ', 'Ism (Majrur)', 'Grammatika / Nahv', 'Majrur ism')">النَّحْوِ</span>
+          <span>؟</span>
+          <span class="word-interactive" onclick="analyzeWord('قَالَ', 'Fe\'l (Modiy)', 'Aytdi', 'O\'tgan zamon fe\'li')">قَالَ</span>
+          <span class="word-interactive" onclick="analyzeWord('المَلَّاحُ', 'Ism (Foeil)', 'Dengizchi', 'Foeil, zamma bilan marfu\'')">المَلَّاحُ</span>
+          <span>:</span>
+          <span class="word-interactive" onclick="analyzeWord('لَا', 'Harf (Inkor)', 'Yo\'q', 'Nafiy (inkor) harfi')">لَا</span>
+          <span>.</span>
+          <span class="word-interactive" onclick="analyzeWord('فَقَالَ', 'Fe\'l', 'Shunda aytdi', 'Fo + qola')">فَقَالَ</span>
+          <span class="word-interactive" onclick="analyzeWord('العَالِمُ', 'Ism (Foeil)', 'Olim', 'Bajaruvchi, marfu\'')">العَالِمُ</span>
+          <span>:</span>
+          <span class="word-interactive" onclick="analyzeWord('قَدْ', 'Harf', 'Darhaqiqat', 'Tahqiq harfi')">قَدْ</span>
+          <span class="word-interactive" onclick="analyzeWord('ضَاعَ', 'Fe\'l (Modiy)', 'Zoye bo\'libdi / yo\'qolibdi', 'O\'tgan zamon fe\'li')">ضَاعَ</span>
+          <span class="word-interactive" onclick="analyzeWord('نِصْفُ', 'Ism (Foeil)', 'Yarmi', 'Marfu\' zamma bilan')">نِصْفُ</span>
+          <span class="word-interactive" onclick="analyzeWord('عُمْرِكَ', 'Muzof ilayh', 'Umringning', 'Majrur kasra bilan')">عُمْرِكَ</span>
+          <span>!</span>
+        </div>
+
+        <!-- So'z tahlili paneli (Ustiga bosilganda ochiladi) -->
+        <div id="wordAnalysisCard" class="hidden p-5 rounded-2xl bg-slate-900 text-white transition-all shadow-xl border-2 border-ar-gold">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] uppercase font-bold tracking-wider text-amber-300">Tahlil Natijasi</span>
+              <div class="flex items-center gap-3 mt-1">
+                <span id="selectedWordArabic" class="font-arabic text-3xl font-bold text-amber-300"></span>
+                <span id="selectedWordType" class="text-xs px-2.5 py-1 rounded-full bg-emerald-900 text-emerald-200 font-semibold"></span>
+              </div>
+            </div>
+            <button onclick="document.getElementById('wordAnalysisCard').classList.add('hidden')" class="text-slate-400 hover:text-white">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-3 border-t border-slate-800 text-xs">
+            <div>
+              <p class="text-slate-400">O'zbekcha Tarjimasi:</p>
+              <p id="selectedWordMeaning" class="text-sm font-bold text-white mt-0.5"></p>
+            </div>
+            <div>
+              <p class="text-slate-400">Grammatik Vazifasi (E'rob):</p>
+              <p id="selectedWordIrob" class="text-sm font-medium text-cyan-300 mt-0.5"></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- 5. INTERAKTIV SAVOL-JAVOB VA TEST (QUIZ) -->
+    <section id="section-quiz" class="space-y-8 hidden animate-fadeIn">
+      
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="text-ar-gold font-bold text-xs uppercase tracking-widest">Bilimingizni Sinang</span>
+        <h2 class="font-serif text-3xl font-bold text-slate-900 mt-1">
+          Grammatika va Sarf Viktorinasi
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mt-2">
+          Savollarga to'g'ri javob bering, darhol tushuntirishini ko'ring va ball to'plang!
+        </p>
+      </div>
+
+      <div class="max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-oriental relative">
+        
+        <!-- Test Progressi -->
+        <div class="flex justify-between items-center text-xs font-bold text-slate-500 mb-6 pb-4 border-b border-slate-100">
+          <span>Savol: <span id="currentQuestionNum" class="text-ar-cyan text-sm">1</span> / <span id="totalQuestionsNum">4</span></span>
+          <span class="text-ar-gold font-bold">Ball: <span id="quizScore">0</span></span>
+        </div>
+
+        <!-- Savol Matni -->
+        <div id="quizContainer">
+          <div id="questionArabic" class="arabic-text text-3xl text-center font-bold text-slate-900 mb-2"></div>
+          <p id="questionText" class="text-center text-slate-700 font-medium text-sm sm:text-base mb-8"></p>
+
+          <!-- Variantlar -->
+          <div class="space-y-3" id="optionsContainer">
+            <!-- JavaScript variantlarni joylaydi -->
+          </div>
+
+          <!-- Tushuntirish Xabari -->
+          <div id="explanationBox" class="hidden mt-6 p-4 rounded-2xl text-xs sm:text-sm leading-relaxed border"></div>
+
+          <!-- Keyingi savol tugmasi -->
+          <button id="nextQuestionBtn" onclick="nextQuestion()" class="hidden mt-6 w-full py-3.5 rounded-xl bg-ar-cyan hover:bg-cyan-700 text-white font-bold text-sm shadow transition">
+            Keyingi Savolga O'tish <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+
+        <!-- Natija ekrani (barcha savollar tugagach) -->
+        <div id="quizResultScreen" class="hidden text-center py-6">
+          <div class="w-20 h-20 rounded-full bg-amber-100 text-ar-gold flex items-center justify-center text-3xl mx-auto mb-4">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-slate-900 font-serif">Ajoyib Natija!</h3>
+          <p class="text-slate-600 text-sm mt-2">Siz barcha savollarni muvaffaqiyatli yakunladingiz.</p>
+          <div class="my-6 text-3xl font-extrabold text-ar-cyan" id="finalScoreDisplay"></div>
+          <button onclick="restartQuiz()" class="px-8 py-3 rounded-xl bg-ar-gold hover:bg-amber-600 text-white font-bold text-xs shadow-md transition">
+            Testni Qaytadan Boshlash
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FORMULALAR & QOIDALAR MODALI (Flashcards) -->
+  <div id="formulaModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 max-h-[85vh] overflow-y-auto shadow-2xl border-2 border-amber-300">
+      
+      <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-100 text-ar-gold flex items-center justify-center font-bold">
+            <i class="fa-solid fa-scroll"></i>
+          </div>
+          <h3 class="font-bold text-lg text-slate-900">Arab Tili Qoidalar Qomusi</h3>
+        </div>
+        <button onclick="closeFormulaModal()" class="text-slate-400 hover:text-slate-700 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 mt-6">
+        
+        <!-- Karta 1 -->
+        <div class="p-4 rounded-2xl bg-cyan-50/70 border border-cyan-200">
+          <h4 class="font-bold text-ar-cyan text-sm flex items-center justify-between">
+            <span>Ismiy Jumla Qoidasi</span>
+            <span class="font-arabic text-base">المبتدأ + الخبر</span>
+          </h4>
+          <p class="text-xs text-slate-600 mt-1">
+            Mubtada odatda ma'rifa (aniq) va marfu' bo'ladi. Xabar esa odatda nakira (noaniq) va marfu' bo'lib, egaga jinsda va sonda moslashadi.
+          </p>
+        </div>
+
+        <!-- Karta 2 -->
+        <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200">
+          <h4 class="font-bold text-ar-gold text-sm flex items-center justify-between">
+            <span>Inna va Uning Sheriklari (إِنَّ وَأَخَوَاتُهَا)</span>
+            <span class="font-arabic text-base">تَنْصِبُ الاِسْمَ وَتَرْفَعُ الخَبَرَ</span>
+          </h4>
+          <p class="text-xs text-slate-600 mt-1">
+            "Inna", "Anna", "Kaanna", "Lakinna", "Layta", "La'alla" ismiy jumlaga kelsa: Mubtadoni <strong>nasb</strong> (fatha) qiladi, xabarni esa <strong>marfu'</strong> (zamma) holida qoldiradi.
+          </p>
+          <div class="arabic-text text-sm font-bold text-slate-800 mt-1">إِنَّ <u>اللهَ</u> <u>غَفُورٌ</u></div>
+        </div>
+
+        <!-- Karta 3 -->
+        <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200">
+          <h4 class="font-bold text-ar-emerald text-sm flex items-center justify-between">
+            <span>Jarr Harflari (حُرُوفُ الجَرِّ)</span>
+            <span class="font-arabic text-base">مِنْ ، إِلَى ، عَنْ ، عَلَى ، فِي...</span>
+          </h4>
+          <p class="text-xs text-slate-600 mt-1">
+            Faqat ismlar oldidan keladi va o'zidan keyingi ismni <strong>majrur</strong> (kasrali) qiladi.
+          </p>
+        </div>
+
+      </div>
+
+      <button onclick="closeFormulaModal()" class="mt-6 w-full py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs hover:bg-slate-200 transition">
+        Yopish
+      </button>
+    </div>
+  </div>
+
+  <!-- Pastki Qism (Footer) -->
+  <footer class="mt-20 border-t border-amber-200 bg-white/80 py-8">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-2">
+      <div class="font-arabic text-lg font-bold text-ar-gold">
+        اللُّغَةُ العَرَبِيَّةُ لُغَةُ القُرْآنِ وَالبَيَانِ
+      </div>
+      <p>© Al-Lisān Arab Tili Platformasi. Zamonaviy va klassik metodikalar asosida tayyorlandi.</p>
+    </div>
+  </footer>
+
+  <!-- INTERAKTIV JAVASCRIPT MANTIG'I -->
+  <script>
+    // 1. BO'LIMLARNI ALMASHTIRISH (Navigation)
+    function switchSection(sectionId) {
+      const sections = ['dashboard', 'nahv', 'sarf', 'mutolaa', 'quiz'];
+      sections.forEach(s => {
+        const el = document.getElementById('section-' + s);
+        const navBtn = document.getElementById('nav-' + s);
+        if (s === sectionId) {
+          el.classList.remove('hidden');
+          if (navBtn) {
+            navBtn.classList.add('bg-white', 'text-ar-cyan', 'shadow-sm');
+            navBtn.classList.remove('text-slate-600');
+          }
+        } else {
+          el.classList.add('hidden');
+          if (navBtn) {
+            navBtn.classList.remove('bg-white', 'text-ar-cyan', 'shadow-sm');
+            navBtn.classList.add('text-slate-600');
+          }
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 2. SARF VAZNLARINI HISOB-KITOBLASH VA KO'RSATISH
+    const rootData = {
+      ktb: {
+        root: "ك - ت - ب",
+        meaning: "Yozmoq",
+        forms: [
+          { name: "O'tgan Zamon", pattern: "فَعَلَ", result: "كَتَبَ", tr: "Yozdi" },
+          { name: "Hozirgi Zamon", pattern: "يَفْعُلُ", result: "يَكْتُبُ", tr: "Yozyapti" },
+          { name: "Masdar (Ish nomi)", pattern: "فِعَالَةٌ", result: "كِتَابَةٌ", tr: "Yozish" },
+          { name: "Ismi Foil (Yozuvchi)", pattern: "فَاعِلٌ", result: "كَاتِبٌ", tr: "Kotib / Muallif" },
+          { name: "Ismi Maf'ul (Yozilgan)", pattern: "مَفْعُولٌ", result: "مَكْتُوبٌ", tr: "Maktub / Yozilgan" },
+          { name: "Ismi Makon (O'rin)", pattern: "مَفْعَلٌ", result: "مَكْتَبٌ", tr: "Maktab / Stol / Ofis" }
+        ]
+      },
+      drs: {
+        root: "د - ر - س",
+        meaning: "Dars qilmoq / O'rganmoq",
+        forms: [
+          { name: "O'tgan Zamon", pattern: "فَعَلَ", result: "دَرَسَ", tr: "O'rgandi" },
+          { name: "Hozirgi Zamon", pattern: "يَفْعُلُ", result: "يَدْرُسُ", tr: "O'rganyapti" },
+          { name: "Masdar", pattern: "فَعْلٌ", result: "دَرْسٌ", tr: "Dars / Saboq" },
+          { name: "Ismi Foil", pattern: "فَاعِلٌ", result: "دَارِسٌ", tr: "O'rganuvchi" },
+          { name: "Ismi Maf'ul", pattern: "مَفْعُولٌ", result: "مَدْرُوسٌ", tr: "O'rganilgan" },
+          { name: "Ismi Makon", pattern: "مَفْعَلَةٌ", result: "مَدْرَسَةٌ", tr: "Madrasa / Maktab" }
+        ]
+      },
+      fth: {
+        root: "ف - ت - ح",
+        meaning: "Ochmoq / Fath qilmoq",
+        forms: [
+          { name: "O'tgan Zamon", pattern: "فَعَلَ", result: "فَتَحَ", tr: "Ochdi" },
+          { name: "Hozirgi Zamon", pattern: "يَفْعَلُ", result: "يَفْتَحُ", tr: "Ochyapti" },
+          { name: "Masdar", pattern: "فَعْلٌ", result: "فَتْحٌ", tr: "Fath / G'alaba" },
+          { name: "Ismi Foil", pattern: "فَاعِلٌ", result: "فَاتِحٌ", tr: "Foth / Ochuvchi" },
+          { name: "Ismi Maf'ul", pattern: "مَفْعُولٌ", result: "مَفْتُوحٌ", tr: "Ochiq" },
+          { name: "Ismi Olat", pattern: "مِفْعَالٌ", result: "مِفْتَاحٌ", tr: "Kalit (Ochqich)" }
+        ]
+      },
+      nsr: {
+        root: "ن - ص - ر",
+        meaning: "Yordam bermoq",
+        forms: [
+          { name: "O'tgan Zamon", pattern: "فَعَلَ", result: "نَصَرَ", tr: "Yordam berdi" },
+          { name: "Hozirgi Zamon", pattern: "يَفْعُلُ", result: "يَنْصُرُ", tr: "Yordam beryapti" },
+          { name: "Masdar", pattern: "فَعْلٌ", result: "نَصْرٌ", tr: "Yordam / Zafar" },
+          { name: "Ismi Foil", pattern: "فَاعِلٌ", result: "نَاصِرٌ", tr: "Yordamchi" },
+          { name: "Ismi Maf'ul", pattern: "مَفْعُولٌ", result: "مَنْصُورٌ", tr: "Yordam berilgan" },
+          { name: "Mubolag'a", pattern: "نَصِيرٌ", result: "نَصِيرٌ", tr: "Kuchli homiy" }
+        ]
+      }
+    };
+
+    function updateRootDisplay() {
+      const selectedKey = document.getElementById('rootSelector').value;
+      const data = rootData[selectedKey];
+      const grid = document.getElementById('sarfResultsGrid');
+      
+      grid.innerHTML = '';
+      data.forms.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "p-3.5 rounded-xl bg-amber-50/70 border border-amber-200 text-center hover:scale-105 transition-transform shadow-sm";
+        card.innerHTML = `
+          <span class="text-[10px] uppercase font-bold text-amber-800 tracking-wide">${item.name}</span>
+          <span class="block text-xs text-slate-500 font-arabic mt-0.5">Vazn: ${item.pattern}</span>
+          <div class="font-arabic text-2xl font-bold text-ar-cyan my-1.5">${item.result}</div>
+          <span class="text-xs font-semibold text-slate-700 block">${item.tr}</span>
+        `;
+        grid.appendChild(card);
+      });
+    }
+    // Dastlabki yuklanishda Sarf jadvalini to'ldirish
+    updateRootDisplay();
+
+    // 3. MUTOLAA SO'Z TAHLILI
+    function analyzeWord(arabic, type, meaning, irob) {
+      const card = document.getElementById('wordAnalysisCard');
+      document.getElementById('selectedWordArabic').textContent = arabic;
+      document.getElementById('selectedWordType').textContent = type;
+      document.getElementById('selectedWordMeaning').textContent = meaning;
+      document.getElementById('selectedWordIrob').textContent = irob;
+      
+      card.classList.remove('hidden');
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Audio o'qish (Web Speech API)
+    function playAudioText() {
+      const arabicStory = "رَكِبَ عَالِمٌ سَفِينَةً فِي البَحْرِ، فَقَالَ لِلْمَلَّاحِ: هَلْ تَعْرِفُ شَيْئًا مِنَ النَّحْوِ؟ قَالَ المَلَّاحُ: لَا. فَقَالَ العَالِمُ: قَدْ ضَاعَ نِصْفُ عُمْرِكَ!";
+      const btn = document.getElementById('audioStatusText');
+
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(arabicStory);
+        utterance.lang = 'ar-SA';
+        utterance.rate = 0.85;
+
+        utterance.onstart = () => {
+          btn.textContent = "O'qilmoqda...";
+        };
+        utterance.onend = () => {
+          btn.textContent = "Matnni O'qib Berish";
+        };
+        utterance.onerror = () => {
+          btn.textContent = "Matnni O'qib Berish";
+        };
+
+        window.speechSynthesis.speak(utterance);
+      } else {
+        btn.textContent = "Brauzer audioni qo'llamaydi";
+        setTimeout(() => btn.textContent = "Matnni O'qib Berish", 2000);
+      }
+    }
+
+    // 4. INTERAKTIV VIKTORINA (QUIZ) TIZIMI
+    const quizData = [
+      {
+        arabic: "«العِلْمُ نَافِعٌ»",
+        q: "Ushbu gapda «نَافِعٌ» so'zi qanday grammatik vazifani bajarmoqda?",
+        options: [
+          { text: "Xabar (الخَبَرُ) — raf' holatida", correct: true },
+          { text: "Mubtada (المُبْتَدَأُ) — zammali", correct: false },
+          { text: "Maf'ul bihi (المَفْعُولُ) — nasb holatida", correct: false },
+          { text: "Majrur ism (الجَارُّ وَالمَجْرُورُ)", correct: false }
+        ],
+        explanation: "To'g'ri! «العِلْمُ» — Mubtada (ega), «نَافِعٌ» — Xabar (kesim). Ikkisi ham marfu' bo'lib, ismiy jumlani tashkil qiladi."
+      },
+      {
+        arabic: "«كَتَبَ الطَّالِبُ الرِّسَالَةَ»",
+        q: "Ushbu fe'liy jumlada fatha bilan turgan «الرِّسَالَةَ» kalimasi nima?",
+        options: [
+          { text: "Foeil (harakat bajaruvchisi)", correct: false },
+          { text: "Maf'ul bihi (harakat o'zi ustida sodir bo'lgan to'ldiruvchi)", correct: true },
+          { text: "Muzofun ilayh", correct: false },
+          { text: "Zamon holi", correct: false }
+        ],
+        explanation: "To'g'ri! Talaba nimani yozdi? Xatni (الرِّسَالَةَ). Bu Maf'ul bihi bo'lib, har doim mansub (fathali) bo'ladi."
+      },
+      {
+        arabic: "«مَفْعُولٌ» vaznida yasalgan so'zni toping:",
+        q: "«فَتَحَ» (ochmoq) fe'lining ismi maf'ul (ochilgan) shakli qaysi?",
+        options: [
+          { text: "فَاتِحٌ (Fātih)", correct: false },
+          { text: "مِفْتَاحٌ (Miftāh)", correct: false },
+          { text: "مَفْتُوحٌ (Maftūh)", correct: true },
+          { text: "اِفْتِتَاحٌ (Iftitāh)", correct: false }
+        ],
+        explanation: "To'g'ri! مَفْعُولٌ vaznida ف - ت - ح ildizi «مَفْتُوحٌ» (ochilgan / ochiq) shakliga kiradi."
+      },
+      {
+        arabic: "«إِنَّ الكِتَابَ ...»",
+        q: "«إِنَّ» kirgan jumlada xabarni to'g'ri e'rob bilan yakunlang:",
+        options: [
+          { text: "مُفِيدٌ (Marfu' - zamma bilan)", correct: true },
+          { text: "مُفِيدًا (Mansub - fatha bilan)", correct: false },
+          { text: "مُفِيدٍ (Majrur - kasra bilan)", correct: false }
+        ],
+        explanation: "To'g'ri! «Inna» o'z ismini nasb (الكِتَابَ) qiladi, xabarini esa marfu' (مُفِيدٌ) holatida saqlaydi."
+      }
+    ];
+
+    let currentQIdx = 0;
+    let score = 0;
+    let answered = false;
+
+    function loadQuizQuestion() {
+      answered = false;
+      const q = quizData[currentQIdx];
+      
+      document.getElementById('currentQuestionNum').textContent = currentQIdx + 1;
+      document.getElementById('totalQuestionsNum').textContent = quizData.length;
+      document.getElementById('questionArabic').textContent = q.arabic;
+      document.getElementById('questionText').textContent = q.q;
+      
+      const explBox = document.getElementById('explanationBox');
+      explBox.classList.add('hidden');
+      document.getElementById('nextQuestionBtn').classList.add('hidden');
+
+      const optionsDiv = document.getElementById('optionsContainer');
+      optionsDiv.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-4 rounded-2xl border-2 border-slate-100 bg-slate-50 hover:bg-amber-50 hover:border-amber-300 font-semibold text-xs sm:text-sm text-slate-800 transition flex items-center justify-between";
+        btn.innerHTML = `<span>${opt.text}</span> <i class="fa-regular fa-circle text-slate-300"></i>`;
+        btn.onclick = () => selectQuizOption(btn, opt.correct, q.explanation);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function selectQuizOption(button, isCorrect, explanation) {
+      if (answered) return;
+      answered = true;
+
+      const explBox = document.getElementById('explanationBox');
+      explBox.classList.remove('hidden');
+
+      if (isCorrect) {
+        score++;
+        document.getElementById('quizScore').textContent = score;
+        button.className = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-bold text-xs sm:text-sm transition flex items-center justify-between";
+        button.innerHTML += `<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>`;
+        
+        explBox.className = "mt-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm";
+        explBox.innerHTML = `<strong>To'g'ri topdingiz! 🌟</strong> ${explanation}`;
+      } else {
+        button.className = "w-full text-left p-4 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-900 font-bold text-xs sm:text-sm transition flex items-center justify-between";
+        button.innerHTML += `<i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>`;
+        
+        explBox.className = "mt-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs sm:text-sm";
+        explBox.innerHTML = `<strong>Kichik xatolik:</strong> ${explanation}`;
+      }
+
+      document.getElementById('nextQuestionBtn').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      currentQIdx++;
+      if (currentQIdx < quizData.length) {
+        loadQuizQuestion();
+      } else {
+        // Natija
+        document.getElementById('quizContainer').classList.add('hidden');
+        const resScreen = document.getElementById('quizResultScreen');
+        resScreen.classList.remove('hidden');
+        document.getElementById('finalScoreDisplay').textContent = `${score} / ${quizData.length} to'g'ri javob`;
+        document.getElementById('dashQuizScore').textContent = `${Math.round((score/quizData.length)*100)}%`;
+      }
+    }
+
+    function restartQuiz() {
+      currentQIdx = 0;
+      score = 0;
+      document.getElementById('quizScore').textContent = 0;
+      document.getElementById('quizContainer').classList.remove('hidden');
+      document.getElementById('quizResultScreen').classList.add('hidden');
+      loadQuizQuestion();
+    }
+    // Dastlabki savolni chiqarish
+    loadQuizQuestion();
+
+    // 5. FORMULA VA QOIDALAR MODALI
+    function openFormulaModal() {
+      document.getElementById('formulaModal').classList.remove('hidden');
+    }
+    function closeFormulaModal() {
+      document.getElementById('formulaModal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
